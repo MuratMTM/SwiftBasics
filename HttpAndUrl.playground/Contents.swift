@@ -32,17 +32,16 @@ Task{
 
 // MARK: - URLComponents
 
-var urlComponents = URLComponents(string: "https://api.nasa.gov/planetary/apod")!
+var urlComponentss = URLComponents(string: "https://api.nasa.gov/planetary/apod")!
 
-urlComponents.queryItems = [
+urlComponentss.queryItems = [
     URLQueryItem(name: "api_key", value: "DEMO_KEY"),
     URLQueryItem(name: "date", value: "2013-07-16")
 ]
 
-
 Task {
     do {
-        let (data, response) = try await URLSession.shared.data(from: urlComponents.url!)
+        let (data, response) = try await URLSession.shared.data(from: urlComponentss.url!)
         
         if let httpResponse = response as? HTTPURLResponse,
            httpResponse.statusCode == 200,
@@ -58,8 +57,45 @@ Task {
 
 
 
+// MARK: JSON Decoding- Converting JSON to Swift
+
+struct PhotoInfo: Codable {
+    var title: String
+    var description: String
+    var url: URL
+    var copyright: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case description = "explanation"
+        case url
+        case copyright
+    }
+}
 
 
+var urlComponents2 = URLComponents(string: "https://api.nasa.gov/planetary/apod")!
+
+urlComponents2.queryItems = [
+    URLQueryItem(name: "api_key", value: "QYERsWgQjfN6c5bsJZzsmxTFtIQ2pzEP6dVVjYwU"),
+    
+]
+
+Task {
+    do {
+        let (data, response) = try await URLSession.shared.data(from: urlComponents2.url!)
+        
+        let jsonDecoder = JSONDecoder()
+        
+        if let httpResponse = response as? HTTPURLResponse,
+           httpResponse.statusCode == 200 {
+            let photoInfo = try? jsonDecoder.decode(PhotoInfo.self, from: data)
+            print(photoInfo ?? "Veri Gelmedi")
+        }
+    } catch {
+        print("Error: \(error)")
+    }
+}
 
 
 
