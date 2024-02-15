@@ -77,7 +77,7 @@ struct PhotoInfo: Codable {
 var urlComponents2 = URLComponents(string: "https://api.nasa.gov/planetary/apod")!
 
 urlComponents2.queryItems = [
-    URLQueryItem(name: "api_key", value: "QYERsWgQjfN6c5bsJZzsmxTFtIQ2pzEP6dVVjYwU"),
+    URLQueryItem(name: "api_key", value: "DEMO_KEY"),
     
 ]
 
