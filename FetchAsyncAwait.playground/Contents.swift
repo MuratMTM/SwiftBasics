@@ -45,3 +45,35 @@ Task{
        print("Fetch photoInfo failed with error: \(error) ")
     }
 }
+
+
+
+extension Data {
+    func prettyPrintedJsonString(){
+        guard let jsonObject = try? JSONSerialization.jsonObject(with: self, options: []),
+              let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted]),
+              let prettyJsonString = String(data: jsonData, encoding: .utf8)else{
+                  print("Failed to read json object.")
+                    return
+              }
+            print(prettyJsonString)
+        
+    }
+}
+
+
+
+// MARK: Pretty Printed Json String
+var urlComponent = URLComponents(string: "https://api.nasa.gov/planetary/apod")!
+urlComponent.queryItems = [
+    URLQueryItem(name: "api_key" , value: "DEMO_KEY")
+]
+
+
+Task{
+    let (data, response)  = try await URLSession.shared.data(from: urlComponent.url!)
+    if let httpResponse = response as? HTTPURLResponse,
+          httpResponse.statusCode == 200{
+        data.prettyPrintedJsonString()
+          }
+}
