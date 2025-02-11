@@ -19,8 +19,8 @@ var onana = martial
 
 martial.position = "Defence"
 
-print(martial.position)
-print(onana.position)
+print(martial.position) //Defence
+print(onana.position)   //Defence
 
 
 //Value Type
@@ -36,5 +36,5 @@ var rashford = garnacho
 
 garnacho.shirtNumber = 78
 
-print(garnacho.shirtNumber)
-print(rashford.shirtNumber)
+print(garnacho.shirtNumber) //78
+print(rashford.shirtNumber) //17
